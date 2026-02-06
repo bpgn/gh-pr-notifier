@@ -1,2 +1,4 @@
 tmp
 settings.local.json
+.env
+pr_bot
