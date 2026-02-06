@@ -23,8 +23,7 @@ INSTRUCTIONS:
    - a new review comment (pull_request_review_comment)
    - Filter out own actions (no self-notifications)
 
-## Next iterations
-4. [ ] Verify webhook signature (GITHUB_WEBHOOK_SECRET)
-5. [ ] Send Slack notifications instead of logs
+4. [x] Verify webhook signature (GITHUB_WEBHOOK_SECRET)
+5. [x] Send Slack notifications (SLACK_BOT_TOKEN, SLACK_USER_ID)
 
 Let's build this together
