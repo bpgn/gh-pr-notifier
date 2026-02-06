@@ -8,16 +8,23 @@ INSTRUCTIONS:
 - keep packages small and easy to understand
 - avoid too many dependencies
 - avoid writing too much code without testing with me first
+- always run tests at the end of an iteration
 
-In order of iterations:
-1. Small golang server that listens on
+## Iterations
+
+1. [x] Small golang server that listens on
     - GET /healthz for healthcheck
     - POST /webhook
-2. Parse payload from webhook object, events are of type :
+2. [x] Parse payload from webhook object, events are of type:
     - pull_request_review
     - pull_request_review_comment
-3. Notify (dry-run for now using a log) when one of MY open PRs receives:
+3. [x] Notify (dry-run for now using a log) when one of MY open PRs receives:
    - a new review (pull_request_review)
    - a new review comment (pull_request_review_comment)
+   - Filter out own actions (no self-notifications)
+
+## Next iterations
+4. [ ] Verify webhook signature (GITHUB_WEBHOOK_SECRET)
+5. [ ] Send Slack notifications instead of logs
 
 Let's build this together

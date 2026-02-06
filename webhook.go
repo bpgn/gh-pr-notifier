@@ -62,20 +62,32 @@ func handleWebhook(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Only notify for PRs authored by the configured user
+	if payload.PullRequest.User.Login != githubUsername {
+		log.Printf("Ignoring: PR author %s is not %s", payload.PullRequest.User.Login, githubUsername)
+		w.WriteHeader(http.StatusOK)
+		return
+	}
+
+	// Don't notify for own actions
+	if payload.Sender.Login == githubUsername {
+		log.Printf("Ignoring: action from self")
+		w.WriteHeader(http.StatusOK)
+		return
+	}
+
 	switch eventType {
 	case "pull_request_review":
-		log.Printf("[REVIEW] PR #%d '%s' by %s received %s review from %s",
+		log.Printf("[NOTIFY] PR #%d '%s' received %s review from %s",
 			payload.PullRequest.Number,
 			payload.PullRequest.Title,
-			payload.PullRequest.User.Login,
 			payload.Review.State,
 			payload.Review.User.Login)
 
 	case "pull_request_review_comment":
-		log.Printf("[COMMENT] PR #%d '%s' by %s received comment from %s: %s",
+		log.Printf("[NOTIFY] PR #%d '%s' received comment from %s: %s",
 			payload.PullRequest.Number,
 			payload.PullRequest.Title,
-			payload.PullRequest.User.Login,
 			payload.Comment.User.Login,
 			payload.Comment.Body)
 
